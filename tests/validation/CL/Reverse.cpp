@@ -112,8 +112,7 @@ DATA_TEST_CASE(ValidateAllDataTypes, framework::DatasetMode::ALL,
 
 // *INDENT-OFF*
 // clang-format off
-DATA_TEST_CASE(Validate, framework::DatasetMode::ALL, zip(zip(zip(
-        make("InputInfo", { TensorInfo(TensorShape(32U, 13U, 2U), 1, DataType::S8), // Invalid axis datatype
+DATA_TEST_CASE(Validate, framework::DatasetMode::ALL, zip(make("InputInfo", { TensorInfo(TensorShape(32U, 13U, 2U), 1, DataType::S8), // Invalid axis datatype
                                             TensorInfo(TensorShape(32U, 13U, 2U), 1, DataType::U8), // Invalid axis shape
                                             TensorInfo(TensorShape(32U, 13U, 2U), 1, DataType::U8), // Invalid axis length (> 4)
                                             TensorInfo(TensorShape(32U, 13U, 2U), 1, DataType::U8), // Mismatching shapes
@@ -126,14 +125,14 @@ DATA_TEST_CASE(Validate, framework::DatasetMode::ALL, zip(zip(zip(
                                             TensorInfo(TensorShape(2U, 13U, 2U), 1, DataType::U8),
                                             TensorInfo(TensorShape(32U, 13U, 2U), 1, DataType::U8),
                                             TensorInfo(TensorShape(2U), 1, DataType::U8),
-        })),
+        }),
         make("AxisInfo",{ TensorInfo(TensorShape(3U), 1, DataType::U8),
                                            TensorInfo(TensorShape(2U, 10U), 1, DataType::U32),
                                            TensorInfo(TensorShape(8U), 1, DataType::U32),
                                            TensorInfo(TensorShape(2U), 1, DataType::U32),
                                            TensorInfo(TensorShape(2U), 1, DataType::U32),
                                            TensorInfo(TensorShape(2U), 1, DataType::U32),
-        })),
+        }),
         make("Expected", { false, false, false, false, true, true})),
         src_info, dst_info, axis_info, expected)
 {
