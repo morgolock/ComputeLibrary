@@ -257,7 +257,7 @@ DATA_TEST_CASE(ValidateAllDataTypes, framework::DatasetMode::ALL,
 
 #define CAST_SUITE(NAME, type, dataset, tolerance)                                                                     \
     TEST_SUITE(NAME)                                                                                                             \
-    FIXTURE_DATA_TEST_CASE(RunSmall, type, framework::DatasetMode::PRECOMMIT, combine(combine(datasets::SmallShapes(), dataset), \
+    FIXTURE_DATA_TEST_CASE(RunSmall, type, framework::DatasetMode::PRECOMMIT, combine(datasets::SmallShapes(), dataset, \
                                                                                       datasets::ConvertPolicies()))              \
     {                                                                                                                            \
         validate(CLAccessor(_target), _reference, tolerance);                                                                    \
