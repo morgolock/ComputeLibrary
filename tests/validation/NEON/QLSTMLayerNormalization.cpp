@@ -99,7 +99,7 @@ static const uint32_t    tensor_num_channel{ 1 };
 // clang-format off
 
 DATA_TEST_CASE(Validate, framework::DatasetMode::ALL,
-    zip(zip(zip(
+    zip(
         framework::dataset::make("InputInfo", {
             TensorInfo(correct_input_shape, tensor_num_channel, DataType::F16), // input supports only QSYMM16
             TensorInfo(correct_input_shape, tensor_num_channel, correct_input_dt), // weight supports only QSYMM16
@@ -123,8 +123,7 @@ DATA_TEST_CASE(Validate, framework::DatasetMode::ALL,
             TensorInfo(correct_weight_shape, tensor_num_channel, correct_weight_dt),
             TensorInfo(correct_weight_shape, tensor_num_channel, correct_weight_dt),
             TensorInfo(correct_weight_shape, tensor_num_channel, correct_weight_dt),
-        })
-    ),
+        }),
         framework::dataset::make("BiasInfo", {
             TensorInfo(correct_bias_shape, tensor_num_channel, correct_bias_dt),
             TensorInfo(correct_bias_shape, tensor_num_channel, correct_bias_dt),
@@ -136,8 +135,7 @@ DATA_TEST_CASE(Validate, framework::DatasetMode::ALL,
             TensorInfo(TensorShape(14U), tensor_num_channel, correct_bias_dt),
             TensorInfo(correct_bias_shape, tensor_num_channel, correct_bias_dt),
             TensorInfo(correct_bias_shape, tensor_num_channel, correct_bias_dt),
-        })
-    ),
+        }),
         framework::dataset::make("OutputInfo", {
             TensorInfo(correct_output_shape, tensor_num_channel, correct_output_dt),
             TensorInfo(correct_output_shape, tensor_num_channel, correct_output_dt),
@@ -185,9 +183,19 @@ TEST_SUITE(QSYMM16)
 constexpr uint32_t qsymm16_per_vector = vector_size_byte / sizeof(int16_t);
 
 #define QSYMM16_DATASET_ITER(num_input_batch, num_iter)                                                              \
-    combine(zip(zip(QLSTMLayerNormShapeDataSet<qsymm16_per_vector, num_input_batch, num_iter>("InputShape"), \
-                            QLSTMLayerNormShapeDataSet<qsymm16_per_vector, 1, num_iter>("WeightShape")),             \
-                        QLSTMLayerNormShapeDataSet<qsymm16_per_vector, 1, num_iter>("BiasShape")),                   \
+    combine(zip(
+                            QLSTMLayerNormShapeDataSet<qsymm16_per_vector,
+                            num_input_batch,
+                            num_iter>("InputShape"),
+                            \
+                            QLSTMLayerNormShapeDataSet<qsymm16_per_vector,
+                            1,
+                            num_iter>("WeightShape"),
+                            \
+                        QLSTMLayerNormShapeDataSet<qsymm16_per_vector,
+                            1,
+                            num_iter>("BiasShape")
+                        ),                   \
                     framework::dataset::make("DataType", DataType::QSYMM16),                                        \
             framework::dataset::make("WeightQuantizationInfo", { QuantizationInfo(1. / 8192), QuantizationInfo(8192) }))
 
