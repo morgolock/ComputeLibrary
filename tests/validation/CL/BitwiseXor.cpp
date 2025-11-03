@@ -40,13 +40,14 @@ namespace test
 {
 namespace validation
 {
+using framework::dataset::make;
 TEST_SUITE(CL)
 TEST_SUITE(BitwiseXor)
 
 template <typename T>
 using CLBitwiseXorFixture = BitwiseXorValidationFixture<CLTensor, CLAccessor, CLBitwiseXor, T>;
 
-FIXTURE_DATA_TEST_CASE(RunSmall, CLBitwiseXorFixture<uint8_t>, framework::DatasetMode::ALL, combine(datasets::SmallShapes(), framework::dataset::make("DataType",
+FIXTURE_DATA_TEST_CASE(RunSmall, CLBitwiseXorFixture<uint8_t>, framework::DatasetMode::ALL, combine(datasets::SmallShapes(), make("DataType",
                                                                                                     DataType::U8)))
 {
     // Validate output

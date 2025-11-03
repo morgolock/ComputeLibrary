@@ -40,13 +40,14 @@ namespace test
 {
 namespace validation
 {
+using framework::dataset::make;
 TEST_SUITE(CL)
 TEST_SUITE(BitwiseNot)
 
 template <typename T>
 using CLBitwiseNotFixture = BitwiseNotValidationFixture<CLTensor, CLAccessor, CLBitwiseNot, T>;
 
-FIXTURE_DATA_TEST_CASE(RunSmall, CLBitwiseNotFixture<uint8_t>, framework::DatasetMode::ALL, combine(datasets::SmallShapes(), framework::dataset::make("DataType",
+FIXTURE_DATA_TEST_CASE(RunSmall, CLBitwiseNotFixture<uint8_t>, framework::DatasetMode::ALL, combine(datasets::SmallShapes(), make("DataType",
                                                                                                     DataType::U8)))
 {
     // Validate output
