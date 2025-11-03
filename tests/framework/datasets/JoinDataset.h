@@ -28,6 +28,7 @@
 
 #include <string>
 #include <tuple>
+#include <type_traits>
 #include <utility>
 
 namespace arm_compute
@@ -160,6 +161,17 @@ template <typename T, typename U>
 JoinDataset<T, U> concat(T &&dataset1, U &&dataset2)
 {
     return JoinDataset<T, U>(std::forward<T>(dataset1), std::forward<U>(dataset2));
+}
+
+template <typename T, typename U, typename V, typename... Rest>
+auto concat(T &&dataset1, U &&dataset2, V &&dataset3, Rest &&... rest)
+    -> decltype(concat(concat(std::forward<T>(dataset1), std::forward<U>(dataset2)),
+                       std::forward<V>(dataset3),
+                       std::forward<Rest>(rest)...))
+{
+    return concat(concat(std::forward<T>(dataset1), std::forward<U>(dataset2)),
+                  std::forward<V>(dataset3),
+                  std::forward<Rest>(rest)...);
 }
 } // namespace dataset
 } // namespace framework
